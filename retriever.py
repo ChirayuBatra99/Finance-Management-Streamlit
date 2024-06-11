@@ -11,6 +11,7 @@ from langchain.document_loaders import UnstructuredURLLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 
+
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
@@ -35,8 +36,20 @@ print(len(docs))
 embeddings= OpenAIEmbeddings()
 vectorindex_openai=FAISS.from_documents(docs, embeddings)
 
-file_path="vector_index.pkl"
+print(vectorindex_openai)
+# file_path="vector_index.pkl"
 
+
+
+vector_index = FAISS.from_documents(docs, embeddings)
+vector_index.save_local('vector_index')
+
+
+
+
+
+# print(pickle.format_version)
+file_path="vector_index.pickle"
 with open(file_path, "wb") as f:
     pickle.dump(vectorindex_openai, f)
 
@@ -44,5 +57,6 @@ with open(file_path, "wb") as f:
 #     with open(file_path, "rb") as f:
 #         vectorIndex = pickle.load(f)
 
+
 # chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=vectorIndex.as_retriever())
-# chain
+# print(chain)
